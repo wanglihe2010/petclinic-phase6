@@ -51,10 +51,10 @@ public class PetClinicBuisnessWorkflow {
         owners.forEach(owner -> log.info(owner.toString()));
 
         // getOwnerByName
-        String searchFor = "Homer Simpson";
+        final String searchFor = "Homer Simpson";
         List<Owner> homers = ownerService.getOwnerByName(searchFor);
 
-        AtomicInteger counter = new AtomicInteger(1);
+        final AtomicInteger counter = new AtomicInteger(1);
         homers.forEach(homer -> {
 
             StringBuilder sb = new StringBuilder();
@@ -74,6 +74,27 @@ public class PetClinicBuisnessWorkflow {
             homer = homers.get(0);
         }
 
+        String target = "Marge Simpson";
+        List<Owner> marges = ownerService.getOwnerByName(target);
+        Owner marge = null;
+        if (!marges.isEmpty()) {
+            marge = marges.get(0);
+        }
+
+        target = "Bart Simpson";
+        List<Owner> barts = ownerService.getOwnerByName(target);
+        Owner bart = null;
+        if (!barts.isEmpty()) {
+            bart = barts.get(0);
+        }
+
+        target = "Lisa Simpson";
+        List<Owner> lisas = ownerService.getOwnerByName(target);
+        Owner lisa = null;
+        if (!lisas.isEmpty()) {
+            lisa = lisas.get(0);
+        }
+
         // Pets for Homer
         Pet pet1 = Pet.builder().withName("Strangles").withBirthDate(new Date()).withPetType(PetType.SNAKE).withOwner(homer).build();
         Pet pet2 = Pet.builder().withName("Mojo").withBirthDate(new Date()).withPetType(PetType.MONKEY).withOwner(homer).build();
@@ -81,21 +102,21 @@ public class PetClinicBuisnessWorkflow {
         Pet pet4 = Pet.builder().withName("Plopper").withBirthDate(new Date()).withPetType(PetType.PIG).withOwner(homer).build();
 
         // Pets for Marge
-        Pet pet5 = Pet.builder().withName("Greyhound").withBirthDate(new Date()).withPetType(PetType.DOG).build();
+        Pet pet5 = Pet.builder().withName("Greyhound").withBirthDate(new Date()).withPetType(PetType.DOG).withOwner(marge).build();
 
         // Pets for Bart
-        Pet pet6 = Pet.builder().withName("Laddie").withBirthDate(new Date()).withPetType(PetType.DOG).build();
-        Pet pet7 = Pet.builder().withName("Santa's Little Helper").withBirthDate(new Date()).withPetType(PetType.DOG).build();
-        Pet pet8 = Pet.builder().withName("Stampy").withBirthDate(new Date()).withPetType(PetType.ELEPHANT).build();
-        Pet pet9 = Pet.builder().withName("Duncan").withBirthDate(new Date()).withPetType(PetType.HORSE).build();
+        Pet pet6 = Pet.builder().withName("Laddie").withBirthDate(new Date()).withPetType(PetType.DOG).withOwner(bart).build();
+        Pet pet7 = Pet.builder().withName("Santa's Little Helper").withBirthDate(new Date()).withPetType(PetType.DOG).withOwner(bart).build();
+        Pet pet8 = Pet.builder().withName("Stampy").withBirthDate(new Date()).withPetType(PetType.ELEPHANT).withOwner(bart).build();
+        Pet pet9 = Pet.builder().withName("Duncan").withBirthDate(new Date()).withPetType(PetType.HORSE).withOwner(bart).build();
 
 
         // Pets for Lisa
-        Pet pet10 = Pet.builder().withName("Nibbles").withBirthDate(new Date()).withPetType(PetType.HAMPSTER).build();
-        Pet pet11 = Pet.builder().withName("Chirpy Boy").withBirthDate(new Date()).withPetType(PetType.LIZARD).build();
-        Pet pet12 = Pet.builder().withName("Bart Junior").withBirthDate(new Date()).withPetType(PetType.LIZARD).build();
-        Pet pet13 = Pet.builder().withName("Snowball IV").withBirthDate(new Date()).withPetType(PetType.CAT).build();
-        Pet pet14 = Pet.builder().withName("Princess").withBirthDate(new Date()).withPetType(PetType.HORSE).build();
+        Pet pet10 = Pet.builder().withName("Nibbles").withBirthDate(new Date()).withPetType(PetType.HAMPSTER).withOwner(lisa).build();
+        Pet pet11 = Pet.builder().withName("Chirpy Boy").withBirthDate(new Date()).withPetType(PetType.LIZARD).withOwner(lisa).build();
+        Pet pet12 = Pet.builder().withName("Bart Junior").withBirthDate(new Date()).withPetType(PetType.LIZARD).withOwner(lisa).build();
+        Pet pet13 = Pet.builder().withName("Snowball IV").withBirthDate(new Date()).withPetType(PetType.CAT).withOwner(lisa).build();
+        Pet pet14 = Pet.builder().withName("Princess").withBirthDate(new Date()).withPetType(PetType.HORSE).withOwner(lisa).build();
 
         petService.savePet(pet1);
         petService.savePet(pet2);
@@ -115,6 +136,10 @@ public class PetClinicBuisnessWorkflow {
         List<Pet> pets = petService.getAllPets();
 
         pets.forEach(pet -> log.info(pet.getName()));
+
+        List<Pet> laddie = petService.getPetByName("Laddie");
+
+        laddie.forEach(l -> log.info(l.toString()));
 
     }
 }

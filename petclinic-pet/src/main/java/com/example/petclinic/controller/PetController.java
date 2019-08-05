@@ -1,8 +1,9 @@
 package com.example.petclinic.controller;
 
-import com.example.petclinic.model.Owner;
 import com.example.petclinic.model.Pet;
 import com.example.petclinic.service.PetService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,6 +11,8 @@ import java.util.List;
 @RestController
 @RequestMapping("pet")
 public class PetController implements BasicController<Pet> {
+
+    private static final Logger logger = LoggerFactory.getLogger(PetController.class.getName());
 
     private PetService petService;
 
@@ -21,6 +24,9 @@ public class PetController implements BasicController<Pet> {
     @Override
     @PostMapping(value = "addPet", produces = "application/json")
     public Pet add(@RequestBody Pet pet) {
+
+        String petName = pet.getName();
+        logger.info(new StringBuilder().append("Adding pet [").append(petName).append("].").toString());
 
         return this.petService.add(pet);
     }
@@ -35,6 +41,9 @@ public class PetController implements BasicController<Pet> {
     @Override
     @PutMapping(value = "updatePet", produces = "application/json")
     public Pet modify(@RequestBody Pet pet) {
+
+        String petName = pet.getName();
+        logger.info(new StringBuilder().append("Updating pet [").append(petName).append("].").toString());
 
         return this.petService.modify(pet);
     }
@@ -54,14 +63,14 @@ public class PetController implements BasicController<Pet> {
 
     }
 
-    @GetMapping(value = "getAllPetsByOwner", produces = "application/json")
-    public List<Pet> getAllPetsForOwner(@RequestBody Owner owner) {
+    @GetMapping(value = "getAllPetsByOwner/{owner}", produces = "application/json")
+    public List<Pet> getAllPetsForOwner(@PathVariable("owner") String owner) {
 
         return this.petService.getAllPetsForOwner(owner);
     }
 
-    @GetMapping(value = "getPetByName", produces = "application/json")
-    public List<Pet> getPetByName(@RequestBody String name) {
+    @GetMapping(value = "getPetByName/{name}", produces = "application/json")
+    public List<Pet> getPetByName(@PathVariable("name") String name) {
 
         return this.petService.getPetByName(name);
     }

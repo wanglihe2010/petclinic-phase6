@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-//@JsonDeserialize(using = OwnerDeserializer.class)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Owner {
 
     private Long id;
