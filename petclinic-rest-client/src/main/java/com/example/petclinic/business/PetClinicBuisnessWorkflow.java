@@ -1,8 +1,6 @@
 package com.example.petclinic.business;
 
-import com.example.petclinic.model.Owner;
-import com.example.petclinic.model.Pet;
-import com.example.petclinic.model.PetType;
+import com.example.petclinic.model.*;
 import com.example.petclinic.service.OwnerService;
 import com.example.petclinic.service.PetService;
 import com.example.petclinic.service.VetService;
@@ -33,6 +31,10 @@ public class PetClinicBuisnessWorkflow {
     }
 
     public void runBusiness() {
+
+        /*
+        Owners
+         */
 
         // Create Owners
         Owner owner1 = Owner.builder().withName("Homer Simpson").withAddress("742 Evergreen Terrace").withCity("Springfield").withPhoneNumber("9395550113").build();
@@ -67,7 +69,9 @@ public class PetClinicBuisnessWorkflow {
             log.info(sb.toString());
         });
 
-        // Create Pets
+        /*
+        Pets
+         */
 
         Owner homer = null;
         if (!homers.isEmpty()) {
@@ -140,6 +144,37 @@ public class PetClinicBuisnessWorkflow {
         List<Pet> laddie = petService.getPetByName("Laddie");
 
         laddie.forEach(l -> log.info(l.toString()));
+
+        /*
+        Visits
+         */
+        Visit visit1 = Visit.builder().withDateOfVisit(new Date()).withDescription("Nice Visit!").withPet(pet1).build();
+        Visit visit2 = Visit.builder().withDateOfVisit(new Date()).withDescription("Bad Visit!").withPet(pet2).build();
+        Visit visit3 = Visit.builder().withDateOfVisit(new Date()).withDescription("Super Visit!").withPet(pet3).build();
+        Visit visit4 = Visit.builder().withDateOfVisit(new Date()).withDescription("So-so Visit!").withPet(pet3).build();
+
+        visitService.saveVisit(visit1);
+        visitService.saveVisit(visit2);
+        visitService.saveVisit(visit3);
+        visitService.saveVisit(visit4);
+
+        List<Visit> visits = visitService.getAllVisits();
+        visits.forEach(visit -> log.info(visit.getPet().getName() + ": " + visit.getDateOfVisit() + ", " + visit.getDescription()));
+
+        /*
+        Vets
+         */
+        Vet vet1 = Vet.builder().withName("SuperVet").withSpeciality(Speciality.DENTISTRY).withSpeciality(Speciality.DENTISTRY).withSpeciality(Speciality.SURGERY).withVisit(visit1).build();
+        Vet vet2 = Vet.builder().withName("SuperDuperVet").withSpeciality(Speciality.DENTISTRY).withSpeciality(Speciality.SURGERY).withSpeciality(Speciality.RADIOLOGY).withVisit(visit1).build();
+        Vet vet3 = Vet.builder().withName("OutstandingVet").withSpeciality(Speciality.DENTISTRY).withSpeciality(Speciality.SURGERY).withVisit(visit4).withVisit(visit3).withVisit(visit2).build();
+
+        vetService.saveVet(vet1);
+        vetService.saveVet(vet2);
+        vetService.saveVet(vet3);
+
+        List<Vet> vets = vetService.getAllVets();
+
+        vets.forEach(v -> log.info(v.toString()));
 
     }
 }

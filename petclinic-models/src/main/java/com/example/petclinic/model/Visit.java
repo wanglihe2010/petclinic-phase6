@@ -20,7 +20,7 @@ public class Visit {
     private String description;
 
     // Lazy fetch is better for performance than eager
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name = "pet_id")
     @JsonIgnoreProperties({"owner","visits"})
     private Pet pet;
@@ -28,7 +28,8 @@ public class Visit {
     // Using the Visit as the owner of the relationship
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
-            CascadeType.MERGE
+            CascadeType.MERGE,
+            CascadeType.ALL
     })
     @JoinTable(
             name = "visit_vet",
@@ -45,6 +46,14 @@ public class Visit {
     public Visit(Date dateOfVisit, String description) {
         this.dateOfVisit = dateOfVisit;
         this.description = description;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Date getDateOfVisit() {

@@ -50,7 +50,8 @@ public class VisitController implements BasicController<Visit> {
     @GetMapping(value = "getAllVisits", produces = "application/json")
     public List<Visit> getAll() {
 
-        return this.visitService.getAll();
+        List<Visit> visits = this.visitService.getAll();
+        return visits;
 
     }
 
